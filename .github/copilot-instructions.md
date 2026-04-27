@@ -64,6 +64,7 @@ routeros-samples/
 │   └── RB750Gr3.rsc         # RB750Gr3 config (RouterOS 6.47.10) - dual-WAN PCC load balancing
 ├── .github/
 │   └── copilot-instructions.md
+├── CHANGELOG.md
 ├── CONTRIBUTING.md
 ├── LICENSE                  # GNU General Public License v3.0
 └── README.md
