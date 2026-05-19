@@ -43,7 +43,8 @@ ssh admin@<router-ip>
 - Import the full config to verify no syntax errors: `/import file-name=<filename>.rsc`
 - Verify individual subsystems after import (firewall, mangle, routes, NAT)
 - For `AUTO-BALANCE.rsc`: run the script and confirm mangle/route/NAT rules were created for each WAN link
-- **No automated linting or CI/CD exists** in this repository -- all validation is manual
+- **No automated linting or testing exists** in this repository -- all validation is manual
+- A `release.yaml` workflow creates releases automatically on push to `main`
 
 ### Expected Timing
 
@@ -63,7 +64,9 @@ routeros-samples/
 │   ├── AUTO-BALANCE.rsc     # Standalone script: auto-discovers PPPoE + DHCP WANs, builds PCC rules
 │   └── RB750Gr3.rsc         # RB750Gr3 config (RouterOS 6.47.10) - dual-WAN PCC load balancing
 ├── .github/
-│   └── copilot-instructions.md
+│   ├── copilot-instructions.md
+│   └── workflows/
+│       └── release.yaml      # Automated release on push to main
 ├── CHANGELOG.md
 ├── CONTRIBUTING.md
 ├── LICENSE                  # GNU General Public License v3.0
@@ -159,7 +162,7 @@ ISP 2 ──► ether2 (WAN2) ──┘
 
 ## CI/CD Pipeline
 
-There is **no CI/CD automation** in this repository. All testing is manual on RouterOS hardware or a [MikroTik CHR](https://mikrotik.com/download) VM.
+There is **no automated linting or testing**. All script validation is manual on RouterOS hardware or a [MikroTik CHR](https://mikrotik.com/download) VM. A `release.yaml` workflow handles automated release creation on push to `main`.
 
 ## Development Workflow
 

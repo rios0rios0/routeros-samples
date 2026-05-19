@@ -16,6 +16,14 @@ Exceptions are acceptable depending on the circumstances (critical bug fixes tha
 
 ## [Unreleased]
 
+### Added
+
+- created `CLAUDE.md` with architecture, conventions, and validation guidance for Claude Code sessions
+
+### Changed
+
+- refreshed `.github/copilot-instructions.md` to correct CI/CD claims and add `release.yaml` to the repository structure tree
+
 ## [0.1.1] - 2026-04-28
 
 ### Changed
