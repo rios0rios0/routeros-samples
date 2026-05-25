@@ -68,6 +68,7 @@ routeros-samples/
 │   └── workflows/
 │       └── release.yaml      # Automated release on push to main
 ├── CHANGELOG.md
+├── CLAUDE.md                # Guidance for Claude Code sessions
 ├── CONTRIBUTING.md
 ├── LICENSE                  # GNU General Public License v3.0
 └── README.md
