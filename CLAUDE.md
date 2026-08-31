@@ -35,7 +35,7 @@ Verify with: `/ip firewall filter print`, `/ip firewall mangle print`, `/ip rout
 
 ## CI
 
-A `release.yaml` workflow creates releases automatically on push to `main`. No automated linting or testing.
+Workflows in `.github/workflows/` all call reusable definitions in `rios0rios0/pipelines`. `release.yaml` creates releases automatically on push to `main`. `claude-review.yaml` runs an automated Claude code review on every pull request, and `claude-mention.yaml` responds to `@claude` mentions in issues and PRs. No automated linting or testing of the `.rsc` scripts themselves.
 
 ## Contributing
 

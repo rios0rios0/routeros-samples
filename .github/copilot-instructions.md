@@ -65,8 +65,13 @@ routeros-samples/
 │   └── RB750Gr3.rsc         # RB750Gr3 config (RouterOS 6.47.10) - dual-WAN PCC load balancing
 ├── .github/
 │   ├── copilot-instructions.md
+│   ├── skills/
+│   │   └── code-review/
+│   │       └── SKILL.md        # Copilot code-review skill tailored to this repo
 │   └── workflows/
-│       └── release.yaml      # Automated release on push to main
+│       ├── release.yaml        # Automated release on push to main
+│       ├── claude-review.yaml  # Automated Claude review on every PR
+│       └── claude-mention.yaml # Claude responder for @claude mentions
 ├── CHANGELOG.md
 ├── CLAUDE.md                # Guidance for Claude Code sessions
 ├── CONTRIBUTING.md
@@ -163,7 +168,7 @@ ISP 2 ──► ether2 (WAN2) ──┘
 
 ## CI/CD Pipeline
 
-There is **no automated linting or testing**. All script validation is manual on RouterOS hardware or a [MikroTik CHR](https://mikrotik.com/download) VM. A `release.yaml` workflow handles automated release creation on push to `main`.
+There is **no automated linting or testing** of the `.rsc` scripts. All script validation is manual on RouterOS hardware or a [MikroTik CHR](https://mikrotik.com/download) VM. GitHub Actions workflows -- all calling reusable definitions in `rios0rios0/pipelines` -- handle the rest: `release.yaml` creates releases on push to `main`, `claude-review.yaml` runs an automated Claude review on every pull request, and `claude-mention.yaml` responds to `@claude` mentions in issues and PRs.
 
 ## Development Workflow
 
