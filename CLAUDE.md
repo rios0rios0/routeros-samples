@@ -35,7 +35,7 @@ Verify with: `/ip firewall filter print`, `/ip firewall mangle print`, `/ip rout
 
 ## CI
 
-Workflows in `.github/workflows/` all call reusable definitions in `rios0rios0/pipelines`. `release.yaml` creates releases automatically on push to `main`. `claude-review.yaml` runs an automated Claude code review on every pull request, and `claude-mention.yaml` responds to `@claude` mentions in issues and PRs. No automated linting or testing of the `.rsc` scripts themselves.
+Workflows in `.github/workflows/` all call reusable definitions in `rios0rios0/pipelines`. `checks.yaml` runs the shared `quality:basic-checks` gate (rebase status and the changelog-fragment rule) on every pull request. `release.yaml` creates releases automatically on push to `main`. `claude-review.yaml` runs an automated Claude code review on every pull request, and `claude-mention.yaml` responds to `@claude` mentions in issues and PRs. No automated linting or testing of the `.rsc` scripts themselves.
 
 ## Contributing
 
