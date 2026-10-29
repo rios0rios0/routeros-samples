@@ -1,0 +1,3 @@
+kind: 'Changed'
+body: 'refreshed `AGENTS.md`, `.github/copilot-instructions.md`, `.github/skills/code-review/SKILL.md`, and `CONTRIBUTING.md` to point at `AGENTS.md` instead of `CLAUDE.md`, correct the NAT comment tag in the style example, document the comment tags that `AUTO-BALANCE.rsc` cleanup depends on and the differently tagged variant embedded in `LoadBalancer/RB750Gr3.rsc`, fix the Git Flow wiki link, and drop review rules about `switch` dispatch, tests, and dependencies that do not apply to RouterOS scripts'
+time: '2026-10-29T00:37:03.468681098Z'

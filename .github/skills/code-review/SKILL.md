@@ -20,7 +20,7 @@ The canonical engineering standards live in the
 repo-tailored index into that guide plus the rules that only apply here. Precedence, highest
 first:
 
-1. This repository's `.github/copilot-instructions.md`, `CLAUDE.md`, and `CONTRIBUTING.md` —
+1. This repository's `AGENTS.md`, `.github/copilot-instructions.md`, and `CONTRIBUTING.md` —
    they describe *this* codebase and its load-bearing invariants.
 2. The **rios0rios0/guide** wiki — the shared standard.
 3. General language idiom.
@@ -32,7 +32,6 @@ guide disagree, the guide wins and this file should be corrected in the same pul
 
 | Topic | Page |
 |-------|------|
-| Mapper Design Pattern — replacing `switch`/`case` | [Mapper-Design-Pattern](https://github.com/rios0rios0/guide/wiki/Mapper-Design-Pattern) |
 | Git Flow — branches, commits, SemVer, breaking changes | [Git-Flow](https://github.com/rios0rios0/guide/wiki/Git-Flow) |
 | Documentation & Change Control — changelog and docs discipline | [Documentation-&-Change-Control](https://github.com/rios0rios0/guide/wiki/Documentation-&-Change-Control) |
 | CHANGELOG Formatting — capitalisation and backticks | [CHANGELOG-Formatting](https://github.com/rios0rios0/guide/wiki/CHANGELOG-Formatting) |
@@ -46,9 +45,8 @@ guide disagree, the guide wins and this file should be corrected in the same pul
    `git symbolic-ref refs/remotes/origin/HEAD` (strip `refs/remotes/origin/`; fall back to `main`),
    then read the diff with `git diff <default>...HEAD` and the file list with
    `git diff <default>...HEAD --name-only`.
-2. **Read whole files, not just hunks.** A hunk cannot show a layering violation, a missing
-   test, or a duplicated helper. Open every changed file in full, plus the files it imports
-   from the layer below.
+2. **Read whole files, not just hunks.** A hunk cannot show where a rule sits in its chain or
+   which pools, bridge ports, and rules depend on it. Open every changed file in full.
 3. **Check the change set as a unit** — not only the code. A change that alters behaviour,
    configuration, or architecture is incomplete without its changelog entry and its
    documentation update, and that omission is a finding in its own right.
@@ -81,13 +79,6 @@ them before the generic ones.
 /export compact                    # to diff a device against a sample
 ```
 
-### Dispatch tables over `switch`
-
-See [Mapper Design Pattern](https://github.com/rios0rios0/guide/wiki/Mapper-Design-Pattern). Two or three stable cases may stay a
-`switch`. Four or more, or a set that grows with features, becomes a map from key to handler
-so that adding a case is a new entry rather than an edit to the dispatcher. Flag new
-`switch`/`if-else` chains that dispatch on a string or enum key.
-
 ## Tests
 
 There is no automated tooling. Verification is importing the script onto a lab RouterBOARD of the stated model and RouterOS version, then confirming connectivity from both the open and the protected segments — and that the management path still works.
@@ -110,7 +101,7 @@ hand.
 - Fragment bodies start with a lowercase verb in simple past tense, capitalise proper nouns
   (GitHub, Go, Docker), and wrap code identifiers and versions in backticks.
 - `README.md` is updated whenever usage, setup, configuration, or architecture changes;
-  `.github/copilot-instructions.md` and `CLAUDE.md` whenever the workflow, commands, or
+  `AGENTS.md` and `.github/copilot-instructions.md` whenever the workflow, commands, or
   structure changes. Documentation and code ship in one commit.
 
 ## Git Flow and pull-request hygiene
@@ -174,7 +165,7 @@ A review that raises noise gets ignored. Do not report these:
 ### Change-control checklist
 - [ ] Changelog entry present for every behavioural change
 - [ ] `README.md` updated if usage, setup, or architecture changed
-- [ ] `.github/copilot-instructions.md` and `CLAUDE.md` updated if the workflow, commands, or structure changed
+- [ ] `AGENTS.md` and `.github/copilot-instructions.md` updated if the workflow, commands, or structure changed
 - [ ] Commit messages follow `type(SCOPE): message` in simple past tense
 - [ ] Breaking changes flagged in the commit footer, the changelog, and the PR description
 
@@ -186,8 +177,8 @@ A review that raises noise gets ignored. Do not report these:
 
 | Severity       | Use for                                                                                                                            |
 |----------------|------------------------------------------------------------------------------------------------------------------------------------|
-| **Critical**   | Broken dependency direction, a leaked secret, an injection or authentication flaw, a missing changelog entry, a banned mock library, a load-bearing invariant broken, a test deleted rather than fixed. |
-| **Warning**    | Naming that departs from the guide, a missing test for a new branch of logic, an unexplained magic value, a stale README or instructions file, a `switch` that should be a map. |
+| **Critical**   | A leaked secret, an injection or authentication flaw, a missing changelog entry, a load-bearing invariant broken.                  |
+| **Warning**    | Naming that departs from the guide, an unexplained magic value, a stale README or instructions file.                               |
 | **Suggestion** | Readability, consistency with neighbouring modules, and performance ideas that no rule mandates.                                     |
 
 Rank findings most severe first, and state plainly when nothing blocks the merge — an empty

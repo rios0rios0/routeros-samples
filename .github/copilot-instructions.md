@@ -2,8 +2,6 @@
 
 This repository is a collection of production-ready MikroTik RouterOS configuration scripts (`.rsc`) covering Layer 7 content filtering, multi-WAN load balancing, firewall rules, NAT, DHCP, web proxy, and VLAN-style network segmentation. Scripts were extracted from real RouterBOARD 750 series deployments (RB750Gr2 and RB750Gr3) running RouterOS 6.x.
 
-**ALWAYS** reference these instructions first and fallback to search or bash commands only when you encounter unexpected information that does not match the info here.
-
 ## Working Effectively
 
 ### Bootstrap and Test the Repository
@@ -39,7 +37,7 @@ ssh admin@<router-ip>
 
 ### Manual Testing Steps
 
-- **ALWAYS** test `.rsc` scripts on a real RouterOS device or MikroTik CHR VM before submitting a PR
+- Test `.rsc` scripts on a real RouterOS device or MikroTik CHR VM before submitting a PR; nothing in CI checks them. Without device access, say the script is untested rather than describing it as validated.
 - Import the full config to verify no syntax errors: `/import file-name=<filename>.rsc`
 - Verify individual subsystems after import (firewall, mangle, routes, NAT)
 - For `AUTO-BALANCE.rsc`: run the script and confirm mangle/route/NAT rules were created for each WAN link
@@ -73,8 +71,9 @@ routeros-samples/
 │       ├── release.yaml        # Automated release on push to main
 │       ├── claude-review.yaml  # Automated Claude review on every PR
 │       └── claude-mention.yaml # Claude responder for @claude mentions
+├── AGENTS.md                # Shared instructions for every coding agent
 ├── CHANGELOG.md
-├── CLAUDE.md                # Guidance for Claude Code sessions
+├── CLAUDE.md                # Contains only `@AGENTS.md`
 ├── CONTRIBUTING.md
 ├── LICENSE                  # GNU General Public License v3.0
 └── README.md
@@ -106,7 +105,7 @@ All three Layer 7 configurations share a common architecture:
 ### Load Balancer Configurations
 
 - **AUTO-BALANCE.rsc**: iterates over all PPPoE-client and DHCP-client interfaces, removes existing balance config (NAT, mangle, routes), then recreates PCC-based load balancing using `both-addresses` as the classifier, assigning each link a sequential slot
-- **RB750Gr3.rsc**: complete config with two WAN interfaces on `ether1`/`ether2`, three LAN ports bridged (`ether3-5`), PCC rules `both-addresses:2/0` and `both-addresses:2/1`, DNS set to `8.8.8.8`/`8.8.4.4`, and AUTO-BALANCE embedded as a system script
+- **RB750Gr3.rsc**: complete config with two WAN interfaces on `ether1`/`ether2`, three LAN ports bridged (`ether3-5`), PCC rules `both-addresses:2/0` and `both-addresses:2/1`, DNS set to `8.8.8.8`/`8.8.4.4`, and a translated variant of AUTO-BALANCE embedded as a system script. The variant tags NAT `Mask<link>` and routing marks `Route<link>` (the standalone script uses `Mascara<link>` and `rota<link>`). Both tag mangle rules and routes `Balance<link>`, so either script replaces the other's mangle rules and routes but leaves the other's NAT masquerade rules behind
 
 ### Network Topology
 
@@ -146,8 +145,9 @@ ISP 2 ──► ether2 (WAN2) ──┘
 # Delay operations
 :delay 2s
 
-# String interpolation and path-based commands
-/ip firewall nat add comment="Balance$nomePppoe" out-interface=$nomePppoe action=masquerade
+# String interpolation and path-based commands. AUTO-BALANCE.rsc's cleanup finds rules by
+# comment: `Mascara<link>` for NAT, `Balance<link>` for mangle and routes.
+/ip firewall nat add action=masquerade chain=srcnat comment="Mascara$nomePppoe" out-interface=$nomePppoe
 ```
 
 ### Key Patterns
@@ -178,7 +178,7 @@ There is **no automated linting or testing** of the `.rsc` scripts. All script v
 3. Edit or create `.rsc` files in the appropriate directory (`Layer7 Filter/` or `LoadBalancer/`)
 4. Validate by importing to a RouterOS test device or CHR VM
 5. Verify configuration was applied correctly with print commands
-6. Commit following the [commit conventions](https://github.com/rios0rios0/guide/wiki/Life-Cycle/Git-Flow)
+6. Commit following the [commit conventions](https://github.com/rios0rios0/guide/wiki/Git-Flow)
 7. Open a pull request against `main`
 
 ## Common Tasks
