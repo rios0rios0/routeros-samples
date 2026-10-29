@@ -105,7 +105,7 @@ All three Layer 7 configurations share a common architecture:
 ### Load Balancer Configurations
 
 - **AUTO-BALANCE.rsc**: iterates over all PPPoE-client and DHCP-client interfaces, removes existing balance config (NAT, mangle, routes), then recreates PCC-based load balancing using `both-addresses` as the classifier, assigning each link a sequential slot
-- **RB750Gr3.rsc**: complete config with two WAN interfaces on `ether1`/`ether2`, three LAN ports bridged (`ether3-5`), PCC rules `both-addresses:2/0` and `both-addresses:2/1`, DNS set to `8.8.8.8`/`8.8.4.4`, and a translated variant of AUTO-BALANCE embedded as a system script. The variant tags NAT `Mask<link>` and routing marks `Route<link>` (the standalone script uses `Mascara<link>` and `rota<link>`), so neither script cleans up the other's rules
+- **RB750Gr3.rsc**: complete config with two WAN interfaces on `ether1`/`ether2`, three LAN ports bridged (`ether3-5`), PCC rules `both-addresses:2/0` and `both-addresses:2/1`, DNS set to `8.8.8.8`/`8.8.4.4`, and a translated variant of AUTO-BALANCE embedded as a system script. The variant tags NAT `Mask<link>` and routing marks `Route<link>` (the standalone script uses `Mascara<link>` and `rota<link>`). Both tag mangle rules and routes `Balance<link>`, so either script replaces the other's mangle rules and routes but leaves the other's NAT masquerade rules behind
 
 ### Network Topology
 
