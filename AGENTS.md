@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to AI coding agents (Claude Code, Codex, Cursor, GitHub Copilot) when working with code in this repository.
 
 ## Overview
 
@@ -22,12 +22,10 @@ Verify with: `/ip firewall filter print`, `/ip firewall mangle print`, `/ip rout
 
 **Layer 7 Filter configs** (`Layer7 Filter/`): single-WAN with segmented LAN. `ether1` = WAN, `ether2` = open (unrestricted) output, `ether3-5` bridged as protected output. Firewall chain order matters: accept whitelisted destinations, reject HTTPS (443), reject push notifications (2195), reject Layer 7 matches, reject all remaining -- all with ICMP network-unreachable.
 
-**Load Balancer configs** (`LoadBalancer/`): dual-WAN PCC-based load balancing. `AUTO-BALANCE.rsc` auto-discovers PPPoE and DHCP WAN interfaces, cleans up previous rules, and rebuilds mangle/route/NAT entries using `both-addresses` as the PCC classifier. `RB750Gr3.rsc` is a complete device config with the auto-balance script embedded.
+**Load Balancer configs** (`LoadBalancer/`): dual-WAN PCC-based load balancing. `AUTO-BALANCE.rsc` auto-discovers PPPoE and DHCP WAN interfaces, cleans up previous rules, and rebuilds mangle/route/NAT entries using `both-addresses` as the PCC classifier. Cleanup finds earlier rules by comment, so re-runs stay idempotent only while the add and remove commands use the same tags: `Mascara<link>` for NAT, `Balance<link>` for mangle and routes, routing mark `rota<link>`. `RB750Gr3.rsc` is a complete device config that embeds a translated variant of the auto-balance script tagging NAT `Mask<link>` and routing marks `Route<link>`; the two scripts do not clean up each other's rules.
 
 ## Conventions
 
-- `:local` for function-scoped variables, `:global` for shared state across script blocks.
-- Iterate interfaces with `:foreach p in=[/interface ... find]`.
 - Firewall rules are order-dependent: whitelist first, specific blocks next, reject-all last.
 - Device-specific configs: `<DeviceModel>.rsc` or `<DeviceModel>v<N>.rsc` for revisions.
 - Automation scripts: ALL-CAPS naming (e.g., `AUTO-BALANCE.rsc`).
