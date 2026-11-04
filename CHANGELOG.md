@@ -22,6 +22,13 @@ Exceptions are acceptable depending on the circumstances (critical bug fixes tha
 
 ## [Unreleased]
 
+## [0.5.2] - 2026-11-04
+
+### Changed
+
+- moved the agent instructions from `CLAUDE.md` to `AGENTS.md`, keeping a `CLAUDE.md` that imports it
+- refreshed `AGENTS.md`, `.github/copilot-instructions.md`, `.github/skills/code-review/SKILL.md`, and `CONTRIBUTING.md` to point at `AGENTS.md` instead of `CLAUDE.md`, correct the NAT comment tag in the style example, document the comment tags that `AUTO-BALANCE.rsc` cleanup depends on and the differently tagged variant embedded in `LoadBalancer/RB750Gr3.rsc`, fix the Git Flow wiki link, and drop review rules about `switch` dispatch, tests, and dependencies that do not apply to RouterOS scripts
+
 ## [0.5.1] - 2026-09-08
 
 ### Changed
